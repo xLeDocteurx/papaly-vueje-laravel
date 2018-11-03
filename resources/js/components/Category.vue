@@ -4,7 +4,7 @@
                 <div class="card-header">
                     <span>{{ thisCategory.title }}</span>
                     <b-btn size="sm" variant="outline-primary" @click="add_panel = !add_panel">
-                        <i class="fas fa-plus"></i>
+                        <i class="fas fa-plus"></i> Link
                     </b-btn>
                     <b-btn size="sm" variant="outline-danger" @click="del_category(thisCategory)">
                         <i class="far fa-trash-alt"></i>
@@ -57,26 +57,26 @@
             },
             add_link(url){
                 if (Algorithmia) {
+                    console.log('algorithmia : ')
                     let input = [url,"weka"];
                     Algorithmia.client("sim5/PqeqGjLoEkEtEkK6/NfGaT1")
                         .algo("web/AnalyzeURL/0.2.17")
                         .pipe(input)
-                        .then(function(output) {
-                            console.log(output);
-                            console.log(output.title);
-                            let link = {
-                                'name' : output.title,
+                        .then(output => {
+                            let data = {
+                                'name' : output.result.title,
                                 'url' : this.link_url,
                                 'category_id' : this.thisCategory.id
                             }
-                            window.axios.post('api/links/store', {link})
-                            .then( response => {
-                                this.links = response.data.links
-                            })
-                            .catch(e => {
-                                console.log(e)
-                            });
-                        });
+                            console.log(data)
+                            console.log('promesse : ')
+                            window.axios.post('api/links/store', {data})
+                                .then( response => {
+                                    this.links = response.data.links
+                                    this.link_url = ''
+                                    this.add_panel = false
+                                }).catch(e => { console.log(e) })
+                        }, e => { console.log(e) })
                 } else {
                     this.links.push({'name':this.link_url, 'url': this.link_url, 'category_id': this.thisCategory.id})
                 }
@@ -92,18 +92,15 @@
                 //     icon:'',
                 // })
                 // Nous effaçons cette variable pour remettre l'input à vide et repartir du bon pied pour une nouvelle entrée
-                this.link_url = ''
-                this.add_panel = false
+
             
             },
             del_link(id){
-
-       			window.axios.post('api/links/destroy', {id})
-                .then( response => {
-                    this.links = this.links.filter(link => link.id !== id)
-                })
-                .catch(e=> console.log(e.response));
-                
+                window.axios.post('api/links/destroy', {id})
+                    .then( response => {
+                        this.links = this.links.filter(link => link.id !== id)
+                    })
+                    .catch(e=> console.log(e.response));
             },
             del_category(category){
                 this.$emit('del_category', category)

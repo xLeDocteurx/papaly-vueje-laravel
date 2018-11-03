@@ -15,13 +15,15 @@ class LinkController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function get(Request $request)
     {
-        $categories = $request->data;
-        $links = Link::whereIn('category_id', $categories)->get();
+        $categories_ids = $request->data['ids'];
+        $links = Link::whereIn('category_id', $categories_ids)->get();
+        $links_length = sizeof($links);
 
         return response()->json([
             'message' => 'Successfully fetch links for present categories',
+            'links_length' => $links_length,
             'links' => $links
         ], 201);
     }
@@ -44,16 +46,18 @@ class LinkController extends Controller
      */
     public function store(Request $request)
     {
+        $category_id = $request->data['category_id'];
+
         $link = new Link();
-        $link->name = $request->link['name'];
-        $link->url = $request->link['url'];
-        $link->category_id = $request->link['category_id'];
+        $link->name = $request->data['name'];
+        $link->url = $request->data['url'];
+        $link->category_id = $category_id;
         $link->save();
 
-        $links = Link::where('category_id', $request->link['category_id'])->get();
+        $links = Link::where('category_id', $category_id)->get();
 
         return response()->json([
-            'message' => 'Successfully created a new link',
+            'message' => 'Successfully created a new link in category ' . $category_id,
             'new_link' => $link,
             'links' => $links
         ], 201);

@@ -25,10 +25,10 @@ Route::post('boards/destroy', 'BoardController@destroy');
 Route::post('boards/update', 'BoardController@update');
 Route::get('boards/index', 'BoardController@index');
 
-Route::post('categories/get', 'CategoryController@index');
+Route::post('categories/get', 'CategoryController@get');
 Route::post('categories/store', 'CategoryController@store');
 Route::post('categories/destroy', 'CategoryController@destroy');
 
-Route::post('links/index', 'LinkController@index');
+Route::post('links/get', 'LinkController@get');
 Route::post('links/store', 'LinkController@store');
 Route::post('links/destroy', 'LinkController@destroy');

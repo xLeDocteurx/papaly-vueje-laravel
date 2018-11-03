@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Category;
 use App\Link;
 use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
 
 class CategoryController extends Controller
@@ -14,14 +15,14 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function get(Request $request)
     {
-        $board_id = $request->data;
+        // $board_id = $request->data;
+        $board_id = $request->data['board_id'];
+
         $categories = Category::where('board_id', $board_id)->get();
-        // $links = [];
-        // foreach ($categories as $category) {
-        //     array_push($links, )
-        // }
+        $categories_length = sizeof($categories);
+
         return response()->json([
             'message' => 'Successfully returned the board categories from board : ' . $board_id,
             'categories' => $categories
