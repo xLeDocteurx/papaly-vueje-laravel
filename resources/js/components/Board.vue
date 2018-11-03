@@ -1,6 +1,7 @@
 <template>
     <div>
 
+            <h5> {{  }} </h5>
             <b-button size="sm" v-if="!category_panel" variant="outline-primary" @click="show_category_panel"><i class="fas fa-plus"></i> Category</b-button>
             <b-input-group v-if="category_panel" class="col-5 mx-auto">
                 <b-form-input @keydown.enter="add_category()" v-model="category_name" type="text" class="form-control" placeholder="Enter your new category name"></b-form-input>
@@ -35,6 +36,7 @@ import Category from './Category.vue'
                 category_name: '',
                 board_id: 1,
                 board: {
+                    board: null,
                     categories: [],
                     links: []
                 },
@@ -56,19 +58,20 @@ import Category from './Category.vue'
                     'board_id': this.board_id
                 }
                 window.axios.post(`api/categories/get`, {data})
-                .then( response => {
-                    this.board.categories = response.data.categories
-                }, e => console.log(e) )
-                // .then( () => this.board.categories.map( x => this.category_ids.push(x.id)), e => console.log(e))
-                .then( () => {
-                    let data = {
-                        'ids': this.board.categories.map( x => x.id)
-                    }
-                    if (data.ids.length > 0) {
-                        window.axios.post('api/links/get', {data})
-                        .then( response => this.board.links = response.data.links, e => console.log(e) )
-                    }
-                })
+                    .then( response => {
+                        this.board.board = response.data.board
+                        this.board.categories = response.data.categories
+                    }, e => console.log(e) )
+                    // .then( () => this.board.categories.map( x => this.category_ids.push(x.id)), e => console.log(e))
+                    .then( () => {
+                        let data = {
+                            'ids': this.board.categories.map( x => x.id)
+                        }
+                        if (data.ids.length > 0) {
+                            window.axios.post('api/links/get', {data})
+                            .then( response => this.board.links = response.data.links, e => console.log(e) )
+                        }
+                    })
             },
             add_category() {
 

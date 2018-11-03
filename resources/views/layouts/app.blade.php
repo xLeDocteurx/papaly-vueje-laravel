@@ -52,7 +52,7 @@
 
                     <!-- Right Side Of Navbar -->
                     @auth
-                        <a class="nav-link ml-auto" href="{{ route('board') }}">My Boards</a>
+                        <a class="nav-link ml-auto" href="{{ route('board') }}">My boards</a>
                     @endauth
 
                     <ul class="navbar-nav">

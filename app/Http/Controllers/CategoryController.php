@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Board;
 use App\Category;
 use App\Link;
 use Illuminate\Http\Request;
@@ -20,11 +21,13 @@ class CategoryController extends Controller
         // $board_id = $request->data;
         $board_id = $request->data['board_id'];
 
+        $board = Board::find($board_id);
         $categories = Category::where('board_id', $board_id)->get();
         $categories_length = sizeof($categories);
 
         return response()->json([
             'message' => 'Successfully returned the board categories from board : ' . $board_id,
+            'board' => $board,
             'categories' => $categories
         ], 201);
     }
