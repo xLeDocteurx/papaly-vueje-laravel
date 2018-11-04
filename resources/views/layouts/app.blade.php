@@ -38,7 +38,7 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
                     <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav mr-auto">
+                    <!-- <ul class="navbar-nav mr-auto">
                         <form class="form-inline my-2 my-md-0">
                             @if(Route::current()->getName() == 'index')
                                 <input class="form-control" type="text" placeholder="Search for a board">
@@ -46,13 +46,14 @@
                                 <input class="form-control" type="text" placeholder="Search for a link">
                             @endif
                         </form>
-                    </ul>
+                    </ul> -->
 
 
 
                     <!-- Right Side Of Navbar -->
                     @auth
-                        <a class="nav-link ml-auto" href="{{ route('board') }}">My boards</a>
+                        <a class="nav-link ml-auto" href="{{ route('board') }}">Current board</a>
+                        <a class="nav-link" href="{{ route('myboards') }}">My boards</a>
                     @endauth
 
                     <ul class="navbar-nav">

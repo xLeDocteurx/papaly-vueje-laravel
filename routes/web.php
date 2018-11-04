@@ -14,5 +14,6 @@
 Route::get('/', 'HomeController@index')->name('index');
 
 Route::get('/board', 'HomeController@board')->name('board');
+Route::get('/myboards', 'HomeController@myboards')->name('myboards');
 
 Auth::routes();

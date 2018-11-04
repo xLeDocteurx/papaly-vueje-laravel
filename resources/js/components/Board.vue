@@ -1,7 +1,7 @@
 <template>
-    <div>
+    <div class="container">
 
-            <h5> {{  }} </h5>
+            <h3>{{ board.board.name }}</h3>
             <b-button size="sm" v-if="!category_panel" variant="outline-primary" @click="show_category_panel"><i class="fas fa-plus"></i> Category</b-button>
             <b-input-group v-if="category_panel" class="col-5 mx-auto">
                 <b-form-input @keydown.enter="add_category()" v-model="category_name" type="text" class="form-control" placeholder="Enter your new category name"></b-form-input>
@@ -33,8 +33,8 @@ import Category from './Category.vue'
         data() {
             return {
                 category_panel: false,
-                category_name: '',
-                board_id: 1,
+                // category_name: '',
+                user: null,
                 board: {
                     board: null,
                     categories: [],
@@ -43,19 +43,25 @@ import Category from './Category.vue'
             }
         },
         created(){
-            this.get_board()
+            this.get_currentUser()
         },
         methods: {
             show_category_panel(){
                 this.category_panel = !this.category_panel
             },
-            change_board(id){
-                this.board_id = id
-                this.get_board()
-            },
-            get_board(){
+            get_currentUser(){
                 let data = {
-                    'board_id': this.board_id
+                    'user_id': currentUser,
+                }
+                window.axios.post(`api/user`, {data})
+                    .then( response => {
+                        this.user = response.data.user
+                        this.get_board(response.data.user.current_board)
+                    })
+            },
+            get_board(id){
+                let data = {
+                    'board_id': id
                 }
                 window.axios.post(`api/categories/get`, {data})
                     .then( response => {
@@ -78,7 +84,7 @@ import Category from './Category.vue'
                 if(this.category_name.length > 0) {
                     let data = {
                         'title': this.category_name,
-                        'board_id': this.board_id
+                        'board_id': this.user.current_board
                     }
                     console.log(data)
                     // ajax call to the api route

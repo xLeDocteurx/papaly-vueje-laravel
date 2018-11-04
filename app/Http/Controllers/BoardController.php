@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use App\Board;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -49,6 +50,19 @@ class BoardController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    public function set(Request $request)
+    {
+        $user_id = $request->data['user_id'];
+        $board_id = $request->data['board_id'];
+
+        $user = User::find($user_id);
+        $user->current_board = $board_id;
+        $user->save();
+        return response()->json([
+            'message' => 'Successfully updated user n°' . $user_id . '. New current board : ' . $board_id
+        ], 201);
+    }
+
     public function store(Request $request)
     {
         $board = new Board();

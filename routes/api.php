@@ -18,7 +18,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 
-Route::get('/users', 'HomeController@api');
+Route::post('/user', 'HomeController@user');
+Route::post('/board/set', 'BoardController@set');
 
 Route::post('boards/store', 'BoardController@store');
 Route::post('boards/destroy', 'BoardController@destroy');
