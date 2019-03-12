@@ -1,5 +1,5 @@
 <template>
-    <li class="list-group-item">
+    <li class="list-group-item col-sm-6 col-md-4 col-lg-3">
         <span><a :href="link.url" target="_blank">{{ link.name }}</a></span>
         <!-- <button @click="" class="btn btn-outline-warning btn-sm">
             <i class="far fa-edit"></i>
