@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-
+        <div v-if="user">
             <h3>{{ board.board.name }}</h3>
             <b-button size="sm" v-if="!category_panel" variant="outline-primary" @click="show_category_panel"><i class="fas fa-plus"></i> Category</b-button>
             <b-input-group v-if="category_panel" class="col-5 mx-auto">
@@ -10,10 +10,13 @@
                 </b-input-group-append>
             </b-input-group>
 
-        <div class="row px-3">
-            <Category v-for="category in board.categories" :key="category.id" :thisCategory="category" :links="board.links" @del_category="delete_category(category.id)"/>
+            <div class="row px-3">
+                <Category v-for="category in board.categories" :key="category.id" :thisCategory="category" :links="board.links" @del_category="delete_category(category.id)"/>
+            </div>
         </div>
-
+        <div v-else>
+            <h3>Vous n'êtes pas connecté</h3>
+        </div>
     </div>   
 </template>
 
@@ -57,6 +60,9 @@ import Category from './Category.vue'
                     .then( response => {
                         this.user = response.data.user
                         this.get_board(response.data.user.current_board)
+                    })
+                    .catch( err => {
+                        this.user = null;
                     })
             },
             get_board(id){

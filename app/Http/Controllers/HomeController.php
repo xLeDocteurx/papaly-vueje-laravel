@@ -30,10 +30,33 @@ class HomeController extends Controller
         return view('welcome', compact('boards'));
     }
     
-    public function board()
+    public function board(Request $request)
     {
+        $data = [
+            'var' => 1
+        ];
+        
+        if (!Auth::user()) {
+            return view('board', compact('data'));
+        }
+        $user_id = Auth::user()->id;
+        if(!$user_id) {
+            return view('board', compact('data'));
+        }
+        error_log("!!! entre dans la danse !!!", 0);
+        error_log("user_id : " . Auth::user()->id . ".", 0);
+        error_log("board_id : " . $request->input('id') . ".", 0);
 
-        return view('board');
+
+        if($request->input('id')) {
+            $board_id = $request->input('id');
+            $user = User::find($user_id);
+            $user->current_board = $board_id;
+            $user->save();
+            return view('board', compact('data'));
+        }
+        
+        return view('board', compact('data'));
     }
     
     public function myboards()

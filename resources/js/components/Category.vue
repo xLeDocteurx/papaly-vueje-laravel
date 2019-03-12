@@ -58,7 +58,7 @@
             add_link(url){
                 if (Algorithmia) {
                     console.log('algorithmia : ')
-                    let input = [url,"weka"];
+                    let input = [url,"weka"]
                     Algorithmia.client("sim5/PqeqGjLoEkEtEkK6/NfGaT1")
                         .algo("web/AnalyzeURL/0.2.17")
                         .pipe(input)
@@ -100,7 +100,7 @@
                     .then( response => {
                         this.links = this.links.filter(link => link.id !== id)
                     })
-                    .catch(e=> console.log(e.response));
+                    .catch(e=> console.log(e.response))
             },
             del_category(category){
                 this.$emit('del_category', category)

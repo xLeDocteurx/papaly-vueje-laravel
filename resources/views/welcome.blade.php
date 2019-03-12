@@ -10,7 +10,7 @@
                 <div class="col-md-6">
                     <ul class="list-group">
                         @foreach ($boards as $board)
-                            <a class="list-group-item list-group-item-action" href="{{ route('board') }}">
+                            <a class="list-group-item list-group-item-action" href="{{ route('board', ['id' => $board->id]) }}">
                                 {{ $board->name }}
                                 <span class="badge badge-primary badge-pill">{{ $board->user_id }}</span>
                             </a>
